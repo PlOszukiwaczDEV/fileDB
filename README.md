@@ -23,3 +23,8 @@ A very unsecure database that uses files.
 - A folder named `/databases` will be created containing two files:
     - `info.json`: Contains public information such as rank, flag, and avatar (as numbers).
     - `passwords.json`: Contains AES encrypted SHA-256 hashes of passwords.
+
+# ToDo
+- [ ] Example Client
+- [ ] Gui Database Editor
+- [ ] Gui Editor
