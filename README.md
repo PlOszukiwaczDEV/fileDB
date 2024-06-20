@@ -6,7 +6,7 @@ A very unsecure database that uses files.
 - `/client` - A example client for the **database**. (Not finished)
 
 # Setup
-## Windows
+## Windows and Linux
 1. Download [bun](https://bun.sh/)
 2. Run `cd db`
 3. Run `bun install`

@@ -34,7 +34,7 @@ if (!fs.existsSync('.env')) {
 // };
 
 // const corsOptions = {
-//     origin: 'http://example.com', // Replace with your client's domain
+//     origin: 'http://example.com', // Replace
 //     optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 // };
 
