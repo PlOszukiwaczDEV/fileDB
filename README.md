@@ -2,7 +2,7 @@
 A very unsecure database that uses files.
 
 # File structure
-- `/db` - The source code for the **database** fileDB.
+- `/db` - The source code for the **database**.
 - `/client` - A example client for the **database**. (Not finished)
 
 # Setup
