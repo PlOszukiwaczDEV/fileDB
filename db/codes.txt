@@ -1,0 +1,3 @@
+400 - Error
+406 - Someting is wrong
+200 - Success
