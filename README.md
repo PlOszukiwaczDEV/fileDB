@@ -13,7 +13,7 @@ A very unsecure database that uses files.
 
 # Running the database
 1. Navigate to the `/db` folder.
-2. Run the command `bun index`.
+2. Run the command `bun index.js`.
 
 # Expected Outputs
 - A file named `.env` will be created containing:
