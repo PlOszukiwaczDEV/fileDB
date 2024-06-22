@@ -200,9 +200,7 @@ app.get('/change', (req, res) => {
     const hashedPassword = passDB[username];
     
     // generate our waaayyyy to secure token
-    let tokenGen1 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + encrypt(sha256Hash(encrypt(hashedPassword))))) + encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + encrypt(sha256Hash(encrypt(hashedPassword))))))
-    let tokenGen2 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + encrypt(sha256Hash(encrypt(username))))) + encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + encrypt(sha256Hash(encrypt(username))))))
-    const ourToken = sha256Hash(encrypt(encrypt(sha256Hash(encrypt(tokenGen1 + tokenGen2))) + encrypt(sha256Hash(encrypt(tokenGen2 + tokenGen1)))))
+    const ourToken = generateToken(username, hashedPassword)
     
     delete hashedPassword;
 
@@ -316,9 +314,17 @@ app.listen(port, () => {
 });
 
 function generateToken(username, hashedPassword) {
-    let tokenGen1 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + encrypt(sha256Hash(encrypt(hashedPassword))))) + encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + encrypt(sha256Hash(encrypt(hashedPassword))))))
-    let tokenGen2 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + encrypt(sha256Hash(encrypt(username))))) + encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + encrypt(sha256Hash(encrypt(username))))))
-    return sha256Hash(encrypt(encrypt(sha256Hash(encrypt(tokenGen1 + tokenGen2))) + encrypt(sha256Hash(encrypt(tokenGen2 + tokenGen1)))))
+    let tokenGen1 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + 
+                    encrypt(sha256Hash(encrypt(hashedPassword))))) +
+                    encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(username)))) + 
+                    encrypt(sha256Hash(encrypt(hashedPassword))))))
+
+    let tokenGen2 = sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + 
+                    encrypt(sha256Hash(encrypt(username))))) + 
+                    encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(hashedPassword)))) + 
+                    encrypt(sha256Hash(encrypt(username))))))
+
+    return sha256Hash(encrypt(sha256Hash(encrypt(encrypt(sha256Hash(encrypt(tokenGen1 + tokenGen2))) + encrypt(sha256Hash(encrypt(tokenGen2 + tokenGen1)))))))
 }
 // hasing and encoding
 function sha256Hash(data) {
