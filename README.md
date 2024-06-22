@@ -1,5 +1,9 @@
 # fileDB
-A very unsecure database that uses files.
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/PlOszukiwaczDEV/fileDB)
+![GitHub last commit](https://img.shields.io/github/last-commit/PlOszukiwaczDEV/fileDB)
+
+
+A very **unsecure** database that uses files.
 
 # File structure
 - `/db` - The source code for the **database**.
