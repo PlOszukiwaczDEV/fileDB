@@ -17,9 +17,9 @@ if (!fs.existsSync('databases')) {
     console.log("[+] Databases have been created.");
 }
 if (!fs.existsSync('.env')) {
-    fs.writeFileSync('.env', 'AES_KEY=<aes key encoded in base64>\nAES_IV=<aes iv encoded in base64>\nALG=aes-256-cbc');
-    console.log("[+] An example .env file has been made. Please fill it out and restart the server.");
-    return;
+    const { base64Key, base64IV } = generateKeyAndIV();
+    fs.writeFileSync('.env', `AES_KEY=${base64Key}\nAES_IV=${base64IV}\nALG=aes-256-cbc`);
+    console.log("[+] .env file has been made.");
 }
 
 // const whitelist = ['http://example1.com', 'http://example2.com'];
@@ -346,6 +346,15 @@ function decrypt(encrypted) {
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted;
+}
+function generateKeyAndIV() {
+    const key = crypto.randomBytes(32); // Generate a 32-byte key for AES-256
+    const iv = crypto.randomBytes(16);  // Generate a 16-byte IV for AES
+
+    const base64Key = key.toString('base64');
+    const base64IV = iv.toString('base64');
+
+    return { base64Key, base64IV };
 }
 
 // read databases

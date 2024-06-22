@@ -28,3 +28,7 @@ A very unsecure database that uses files.
 - [ ] Example Client
 - [ ] Gui Database Editor
 - [ ] Gui Editor
+
+## License
+
+[![License: CC0 1.0 Universal](https://img.shields.io/github/license/PlOszukiwaczDEV/fileDB)](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en)

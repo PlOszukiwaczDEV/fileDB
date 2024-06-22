@@ -1,6 +1,7 @@
 databases
 node_modules
 .env
+db\keyGen.js
 
 # Logs
 logs
