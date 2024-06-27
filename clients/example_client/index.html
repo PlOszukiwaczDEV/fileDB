@@ -1,0 +1,154 @@
+<!-- Test client for testing will be finished soon -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fileDB Test Client</title>
+    <script src="getCookieValue.js"></script>
+</head>
+<body>
+    <h1>Registration</h1>
+    <label>Username</label> <br>
+    <input type="text" id="rusername"></input> <br>
+    <label>Password</label> <br>
+    <input type="password" id="rpassword"></input> <br>
+    <label>Country Flag</label> <br>
+    <select id="rflag"></select> <br>
+    <img id="flagImage" src="" alt="Selected flag will appear here" style="margin-top: 10px;"> <br>
+    <label>Avatar</label> <br>
+    <input type="number" id="ravatar" min="1"></input> <br>
+    <button id="register">Register</button> <br>
+    <p id="rresponse"></p> <!-- Response element for displaying registration results -->
+
+    <h1>Login</h1>
+    <label>Username</label> <br>
+    <input type="text" id="lusername"></input> <br>
+    <label>Password</label> <br>
+    <input type="password" id="lpassword"></input> <br>
+    <button id="login">Log In</button> <br>
+    <p id="lresponse"></p> <!-- Response element for displaying login results -->
+
+    <h1>Change</h1>
+    <h1>Read</h1>
+
+    <script>
+        const countryCodes = ["AD","AE","AF","AG","AI","AH","AK","AL","AM","AN","AO","AQ","AR","AS","AT","AU",
+                              "AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO",
+                              "BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK",
+                              "CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO",
+                              "DZ","EC","EE","EG","EH","ER","ES","ET","EU","FI","FJ","FK","FM","FO","FR","GA",
+                              "GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU",
+                              "GW","GY","HK","HM","HN","HR","HT","HU","IC","ID","IE","IL","IM","IN","IO","IQ",
+                              "IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW",
+                              "KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD",
+                              "ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV",
+                              "MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NY",
+                              "NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY",
+                              "QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK",
+                              "SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH",
+                              "TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY",
+                              "UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","XK","YE","YT","ZA","ZM","ZW"];
+
+        const flagSelect = document.getElementById('rflag');
+        const flagImage = document.getElementById('flagImage');
+
+        countryCodes.forEach(code => {
+            const option = document.createElement('option');
+            option.value = code;
+            option.text = code;
+            flagSelect.appendChild(option);
+        });
+
+        // Update flag image when flag is selected
+        flagSelect.addEventListener('change', function() {
+            const selectedFlag = flagSelect.value;
+            if (selectedFlag) {
+                document.querySelector("#flagImage").src = `https://www.flagsapi.com/${selectedFlag}/shiny/64.png`;
+            }
+        });
+
+        // Registration
+        document.getElementById("register").addEventListener("click", function() {
+            let rUsername = document.getElementById('rusername').value;
+            let rPassword = document.getElementById('rpassword').value;
+            let rFlag = document.getElementById('rflag').value;
+            let rAvatar = document.getElementById('ravatar').value;
+            let rresponse = document.getElementById('rresponse');
+
+            if (!rUsername || !rPassword || !rFlag || !rAvatar) {
+                rresponse.textContent = "All fields are required.";
+                console.error("All fields are required.");
+                return;
+            }
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'User-Agent': 'insomnia/9.2.0',
+                    'username': rUsername,
+                    'password': rPassword,
+                    'flag': rFlag,
+                    'avatar': rAvatar
+                }
+            };
+
+            fetch('http://localhost:3000/register', options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    rresponse.textContent = "Registration successful!";
+                })
+                .catch(err => {
+                    console.error(err);
+                    rresponse.textContent = "Registration failed: " + err.message;
+                });
+        });
+
+        // Login
+        document.getElementById("login").addEventListener("click", function() {
+            let lUsername = document.getElementById('lusername').value;
+            let lPassword = document.getElementById('lpassword').value;
+            let lresponse = document.getElementById('lresponse');
+
+            if (!lUsername || !lPassword) {
+                lresponse.textContent = "Missing username or password";
+                console.error("Missing username or password");
+                return;
+            }
+
+            const options = {
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'insomnia/9.2.0',
+                    'username': lUsername,
+                    'password': lPassword
+                }
+            };
+
+            fetch('http://localhost:3000/login', options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    let token = data.token;
+                    document.cookie = `token=${token}; path=/`; // Secure cookie setting
+                    lresponse.textContent = "Login successful!";
+                })
+                .catch(err => {
+                    console.error(err);
+                    lresponse.textContent = "Login failed: " + err.message;
+                });
+        });
+    </script>
+</body>
+</html>
