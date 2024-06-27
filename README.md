@@ -6,7 +6,7 @@ A very **unsecure** database that uses files.
 
 # File structure
 - `/db` - The source code for the **database**.
-- `/client` - A example client for the **database**. (Not finished)
+- `/clients` - A example clients for the **database**. (Not finished)
 
 # Setup
 ## Windows and Linux
